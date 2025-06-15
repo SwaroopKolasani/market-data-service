@@ -16,13 +16,13 @@ def get_provider(provider_name: str = None, api_key: str = None) -> MarketDataPr
     # Use default if no provider specified
     if not provider_name:
         provider_name = DEFAULT_PROVIDER
-    
+
     if provider_name not in PROVIDERS:
         available = ", ".join(PROVIDERS.keys())
         raise ValueError(f"Unknown provider: {provider_name}. Available: {available}")
-    
+
     provider_class = PROVIDERS[provider_name]
-    
+
     # Yahoo Finance doesn't need API key
     return provider_class()
 

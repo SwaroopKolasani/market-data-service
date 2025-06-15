@@ -11,6 +11,7 @@ import os
 # Create test database
 TEST_DATABASE_URL = "sqlite:///./test.db"
 
+
 @pytest.fixture(scope="session")
 def test_engine():
     """Create test database engine"""
@@ -22,6 +23,7 @@ def test_engine():
     if os.path.exists("./test.db"):
         os.remove("./test.db")
 
+
 @pytest.fixture(scope="function")
 def test_db(test_engine):
     """Create test database session"""
@@ -32,19 +34,22 @@ def test_db(test_engine):
     finally:
         session.close()
 
+
 @pytest.fixture(scope="function")
 def client(test_db):
     """Create test client"""
+
     def override_get_db():
         try:
             yield test_db
         finally:
             pass
-    
+
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
 
 @pytest.fixture(scope="session")
 def event_loop():

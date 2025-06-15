@@ -3,7 +3,4 @@
 from .producer import PriceEventProducer
 from .consumer import MovingAverageConsumer
 
-__all__ = [
-    "PriceEventProducer",
-    "MovingAverageConsumer"
-]
+__all__ = ["PriceEventProducer", "MovingAverageConsumer"]

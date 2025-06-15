@@ -17,7 +17,7 @@ async def get_latest_price(
     symbol: str = Query(..., description="Stock symbol (e.g., AAPL)"),
     provider: Optional[str] = Query(None, description="Data provider"),
     db: Session = Depends(get_db),
-    price_service: PriceService = Depends(get_price_service)
+    price_service: PriceService = Depends(get_price_service),
 ):
     """Get the latest price for a symbol"""
     try:
@@ -31,18 +31,11 @@ async def get_latest_price(
 
 @router.post("/poll", response_model=PollResponse, status_code=202)
 async def create_poll_job(
-    request: PollRequest,
-    db: Session = Depends(get_db),
-    price_service: PriceService = Depends(get_price_service)
+    request: PollRequest, db: Session = Depends(get_db), price_service: PriceService = Depends(get_price_service)
 ):
     """Create a polling job for multiple symbols"""
     try:
-        job_data = await price_service.create_polling_job(
-            db, 
-            request.symbols, 
-            request.interval, 
-            request.provider
-        )
+        job_data = await price_service.create_polling_job(db, request.symbols, request.interval, request.provider)
         return PollResponse(**job_data)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -55,7 +48,7 @@ async def get_moving_average(
     symbol: str = Query(..., description="Stock symbol (e.g., AAPL)"),
     window: Optional[int] = Query(None, description="Moving average window size"),
     db: Session = Depends(get_db),
-    price_service: PriceService = Depends(get_price_service)
+    price_service: PriceService = Depends(get_price_service),
 ):
     """Get the latest moving average for a symbol"""
     try:
