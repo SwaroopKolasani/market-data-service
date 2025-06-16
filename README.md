@@ -22,7 +22,16 @@
 </ul>
 <h2>🏗️ System Architecture</h2>
 <img src="https://github.com/SwaroopKolasani/market-data-service/blob/main/docs/system-architecture.png" alt="Architecture Diagram" width="500"/>
-
+  <h2>⚙️ Data Flow</h2>
+    <ol>
+      <li>The <strong>client</strong> hits the FastAPI endpoint.</li>
+      <li>FastAPI fetches data from the <strong>Finnhub API</strong> and stores the raw data in <strong>PostgreSQL</strong>.</li>
+      <li>Simultaneously, the data is published to <strong>Kafka</strong> via the producer.</li>
+      <li>The <strong>Kafka consumer</strong> picks up the data, calculates a 5-point moving average, and persists it to PostgreSQL.</li>
+      <li><strong>Redis</strong> is used to cache frequent requests and reduce load.</li>
+    </ol>
+  </div>
+  
 <h2>📋 Quick Start</h2>
 <h3>Prerequisites</h3>
 <ul>
